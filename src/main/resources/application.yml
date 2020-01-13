@@ -1,0 +1,40 @@
+server:
+  port: 8761
+spring:
+  boot:
+    admin:
+      client:
+        #url: http://${HOST_IP}:9000
+        url: http://host.docker.internal:9000
+        instance:
+          health-url: http://host.docker.internal:8761/actuator/health
+          management-url: http://host.docker.internal:8761/actuator
+  kafka:
+#    bootstrap-servers: http://${HOST_IP}:9092
+    bootstrap-servers: http://host.docker.internal:9092
+  zipkin:
+    sender:
+      type: kafka
+    kafka:
+      topic: blunt-registry
+  sleuth:
+    messaging:
+      kafka:
+        enabled: true
+    sampler:
+      probability: 1.0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    lease-renewal-interval-in-seconds: 10
+
+logging:
+  path: C:/Users/kpaulpa/Documents/workArea/TechnicalWork/logs/blunt-registry-service
